@@ -36,6 +36,7 @@ void Game::drawScore()
 
 void Game::start()
 {
+    HideCursor();
     this->drawMenu();
     while (!WindowShouldClose())
     {
@@ -64,9 +65,9 @@ void Game::controls()
 
     if (IsKeyPressed(KEY_ENTER) && !isStanding) gameCards->addCard(isStanding);
 
-    if (IsKeyPressed(KEY_SPACE) || player->getHand() >= 21 || player->getCardCount() == 5) isStanding = true;
+    if (IsKeyPressed(KEY_SPACE) || player->getHand() >= 21 || player->getCardCount() == 6) isStanding = true;
 
-    if (isStanding)
+    if (isStanding && dealer->getCardCount() < 6)
     {
         time += GetFrameTime();
         if (cardIsHidden && time > 0.5f)
@@ -91,7 +92,7 @@ void Game::result()
 {
     if (player->getHand() == dealer->getHand()) DrawText("EQUAL", 560, 250, 50, BLACK);
     else if (player->hasBlackjack() || dealer->hasBlackjack()) DrawText("BLACKJACK", 490, 235, 50, WHITE);
-    else if (player->getHand() > dealer->getHand() || dealer->getHand() > 21 && player->getHand() <= 21) DrawText("YOU HAVE WON", 440, 235, 50, WHITE);
+    else if (player->getHand() <= 21 && player->getHand() > dealer->getHand() || dealer->getHand() > 21) DrawText("YOU HAVE WON", 440, 235, 50, WHITE);
     else DrawText("THE DEALER HAS WON", 340, 235, 50, RED);
 
     this->restart();
