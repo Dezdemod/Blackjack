@@ -1,5 +1,7 @@
 #pragma once
 #include <dealer.h>
+#include <vector>
+#include <string>
 
 class Cards
 {
@@ -17,23 +19,7 @@ private:
 	int card;
 	const Sound dealCard;
 
+	std::vector<std::string> textureNames;
 	std::shared_ptr<Player> player;
 	std::shared_ptr<Dealer> dealer;
-};
-
-enum cardType
-{
-	Two = 2,
-	Three,
-	Four,
-	Five,
-	Six,
-	Seven,
-	Eight,
-	Nine,
-	Ten,
-	Ace,
-	Jack,
-	Queen,
-	King
 };

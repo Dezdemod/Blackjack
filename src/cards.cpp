@@ -3,6 +3,12 @@
 Cards::Cards(std::shared_ptr<Player> PLAYER, std::shared_ptr<Dealer> DEALER)
     : card(0)
     , dealCard(LoadSound("sounds/deal.wav"))
+    , textureNames
+    (
+        { "cards/2.png", "cards/3.png", "cards/4.png", "cards/5.png", "cards/6.png"
+        ,"cards/7.png", "cards/8.png", "cards/9.png", "cards/10.png"
+        ,"cards/jack.png" ,"cards/queen.png", "cards/king.png", "cards/ace.png" }
+    )
     , player(PLAYER)
     , dealer(DEALER)
 {
@@ -31,64 +37,16 @@ void Cards::drawCards()
 
 void Cards::setCard(Texture2D& cardTexture, std::shared_ptr<Player> person)
 {
-    card = GetRandomValue(2, 14);
+    card = GetRandomValue(0, 12);
     UnloadTexture(cardTexture);
-
-    switch (card)
+    cardTexture = LoadTexture(textureNames[card].c_str());
+    if (card == 12)
     {
-    case Two: cardTexture = LoadTexture("cards/2.png");
-        person->setHand(2);
-        break;
-
-    case Three: cardTexture = LoadTexture("cards/3.png");
-        person->setHand(3);
-        break;
-
-    case Four: cardTexture = LoadTexture("cards/4.png");
-        person->setHand(4);
-        break;
-
-    case Five: cardTexture = LoadTexture("cards/5.png");
-        person->setHand(5);
-        break;
-
-    case Six: cardTexture = LoadTexture("cards/6.png");
-        person->setHand(6);
-        break;
-
-    case Seven: cardTexture = LoadTexture("cards/7.png");
-        person->setHand(7);
-        break;
-
-    case Eight: cardTexture = LoadTexture("cards/8.png");
-        person->setHand(8);
-        break;
-
-    case Nine: cardTexture = LoadTexture("cards/9.png");
-        person->setHand(9);
-        break;
-
-    case Ten: cardTexture = LoadTexture("cards/10.png");
-        person->setHand(10);
-        break;
-
-    case Jack: cardTexture = LoadTexture("cards/jack.png");
-        person->setHand(10);
-        break;
-
-    case Queen: cardTexture = LoadTexture("cards/queen.png");
-        person->setHand(10);
-        break;
-
-    case King: cardTexture = LoadTexture("cards/king.png");
-        person->setHand(10);
-        break;
-
-    case Ace: cardTexture = LoadTexture("cards/ace.png");
         if (21 - person->getHand() < 11) person->setHand(21 - person->getHand());
         else person->setHand(11);
-        break;
     }
+    else if (card > 8) person->setHand(10);
+    else person->setHand(card + 2);
 }
 
 void Cards::addCard(bool &isStanding)
